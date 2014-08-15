@@ -11,7 +11,7 @@ class RolesTableSeeder extends Seeder {
         $adminRole->save();
 
         $commentRole = new Role;
-        $commentRole->name = 'comment';
+        $commentRole->name = 'config';
         $commentRole->save();
 
         $user = User::where('username','=','admin')->first();

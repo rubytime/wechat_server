@@ -8,28 +8,16 @@ class PermissionsTableSeeder extends Seeder {
 
         $permissions = array(
             array( // 1
-                'name'         => 'manage_blogs',
-                'display_name' => 'manage blogs'
-            ),
-            array( // 2
-                'name'         => 'manage_posts',
-                'display_name' => 'manage posts'
-            ),
-            array( // 3
-                'name'         => 'manage_comments',
-                'display_name' => 'manage comments'
-            ),
-            array( // 4
                 'name'         => 'manage_users',
                 'display_name' => 'manage users'
             ),
-            array( // 5
+            array( // 2
                 'name'         => 'manage_roles',
                 'display_name' => 'manage roles'
             ),
-            array( // 6
-                'name'         => 'post_comment',
-                'display_name' => 'post comment'
+            array( // 3
+                'name'         => 'manage_config',
+                'display_name' => 'manage config'
             ),
         );
 
@@ -38,7 +26,7 @@ class PermissionsTableSeeder extends Seeder {
         DB::table('permission_role')->delete();
 
         $role_id_admin = Role::where('name', '=', 'admin')->first()->id;
-        $role_id_comment = Role::where('name', '=', 'comment')->first()->id;
+        $role_id_config = Role::where('name', '=', 'config')->first()->id;
         $permission_base = (int)DB::table('permissions')->first()->id - 1;
 
         $permissions = array(
@@ -51,24 +39,8 @@ class PermissionsTableSeeder extends Seeder {
                 'permission_id' => $permission_base + 2
             ),
             array(
-                'role_id'       => $role_id_admin,
+                'role_id'       => $role_id_config,
                 'permission_id' => $permission_base + 3
-            ),
-            array(
-                'role_id'       => $role_id_admin,
-                'permission_id' => $permission_base + 4
-            ),
-            array(
-                'role_id'       => $role_id_admin,
-                'permission_id' => $permission_base + 5
-            ),
-            array(
-                'role_id'       => $role_id_admin,
-                'permission_id' => $permission_base + 6
-            ),
-            array(
-                'role_id'       => $role_id_comment,
-                'permission_id' => $permission_base + 6
             ),
         );
 

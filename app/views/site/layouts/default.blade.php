@@ -21,6 +21,8 @@
 		================================================== -->
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
+        {{ HTML::style('assets/css/custom.css') }}
+        {{ HTML::script('assets/js/image.upload.js') }}
 
 		<style>
         body {
@@ -34,6 +36,7 @@
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+
 
 		<!-- Favicons
 		================================================== -->

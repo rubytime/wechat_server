@@ -17,11 +17,13 @@
  */
 Route::model('user', 'User');
 Route::model('role', 'Role');
+Route::model('image', 'Image');
 
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------
  */
+Route::pattern('image', 'Image');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
@@ -50,6 +52,21 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
+});
+
+/** ------------------------------------------
+ *  Normal Routes
+ *  ------------------------------------------
+ */
+Route::group(array('prefix' => 'normal', 'before' => 'auth'), function()
+{
+    # User Management
+    Route::get('images/{image}/show', 'NormalImagesController@getShow');
+    Route::get('images/{image}/upload', 'NormalImagesController@getUpload');
+    Route::post('images/{image}/upload', 'NormalImagesController@postUpload');
+    Route::get('images/{image}/delete', 'NormalImagesController@getDelete');
+    Route::post('images/{image}/delete', 'NormalImagesController@postDelete');
+    Route::controller('images', 'NormalImagesController');
 });
 
 

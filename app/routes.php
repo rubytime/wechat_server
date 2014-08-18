@@ -59,7 +59,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
  *  Normal Routes
  *  ------------------------------------------
  */
-Route::group(array('prefix' => 'normal'), function()
+Route::group(array('prefix' => 'normal', 'before' => 'auth'), function()
 {
     # Image Management
     /*Route::get('images/{image}/show', 'NormalImagesController@getShow');

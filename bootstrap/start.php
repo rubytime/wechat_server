@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('192.168.2.101'), // Change this to your local machine hostname.
+    'local' => array('zhangjies-Mac-2.local'), // Change this to your local machine hostname.
     'staging' => array('your-staging-machine-name'),
     'production' => array('your-production-machine-name'),
 

@@ -21,8 +21,8 @@
 		================================================== -->
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
-        {{ HTML::style('assets/css/custom.css') }}
-        {{ HTML::script('assets/js/image.upload.js') }}
+        <!--{{ HTML::style('assets/css/custom.css') }}
+        {{ HTML::script('assets/js/image.upload.js') }}-->
 
 		<style>
         body {
@@ -63,7 +63,12 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
-						<li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}">Home</a></li>
+						<li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}"><span class="glyphicon glyphicon-home"> Home</a></li>
+						@if (Auth::check() && Auth::user()->hasrole('config'))
+						<li {{ (Request::is('normal/images*') ? ' class="active"' : '') }}><a href="{{{ URL::to('normal/images') }}}"><span class="glyphicon glyphicon-picture"> Images</a></li>
+						<li {{ (Request::is('normal/videos*') ? ' class="active"' : '') }}><a href="{{{ URL::to('normal/videos') }}}"><span class="glyphicon glyphicon-facetime-video"> Videos</a></li>
+						<li {{ (Request::is('normal/configs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('normal/configs') }}}"><span class="glyphicon glyphicon-edit"> Configs</a></li>
+						@endif
 					</ul>
 
                     <ul class="nav navbar-nav pull-right">

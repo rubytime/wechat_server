@@ -10,13 +10,20 @@ class NormalImagesController extends BaseController {
     protected $image;
 
     /**
+     * User Model
+     * @var User
+     */
+    protected $user;
+
+    /**
      * Inject the models.
      * @param Image $image
      */
-    public function __construct(ImageModel $image)
+    public function __construct(ImageModel $image, User $user)
     {
         parent::__construct();
         $this->image = $image;
+        $this->user = $user;
     }
 
 	/**
@@ -37,6 +44,14 @@ class NormalImagesController extends BaseController {
      */
     public function postUpload()
     {
+        $user = $this->user->currentUser();
+        $canUpload = $user->can('manage_config');
+        if(!$canUpload)
+        {
+            return Redirect::to('normal/images')
+                        ->with('status', 'alert-danger')
+                        ->with('image-message', 'You need to be logged in with normal user to upload images!');
+        }
         $files = Input::file('file');
         $serializedFile = array();
 
@@ -44,7 +59,7 @@ class NormalImagesController extends BaseController {
             // Validate files from input file
             $validation = ImageModel::validateImage(array('file'=> $file));
 
-            if (! $validation->fails()) {
+            if (! $validation->fails() && !empty($file)) {
 
                 // If validation pass, get filename and extension
                 // Generate random (12 characters) string
@@ -63,8 +78,10 @@ class NormalImagesController extends BaseController {
                 		->resize(null, 120, function ($constraint) {$constraint->aspectRatio();})
                 		->save($destinationPath . '/min_' . $fileName);
 
-                // Insert image information to database
-                //Images::insertImage($folderName, $fileName);
+                $this->image->user_id = Auth::user()->id;
+                $this->image->img_big = $folderName . '/' . $fileName;
+                $this->image->img_min = $folderName . '/min_' . $fileName; 
+                $this->image->save();
             } else {
                 return Redirect::to('normal/images')
                         ->with('status', 'alert-danger')
@@ -76,7 +93,6 @@ class NormalImagesController extends BaseController {
 
         return Redirect::to('normal/images')
                 ->with('status', 'alert-success')
-                ->with('files', $serializedFile)
                 ->with('image-message', 'Congratulations! Your photo(s) has been added');
     }
 

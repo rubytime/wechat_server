@@ -23,4 +23,25 @@ class ImageModel extends Eloquent {
     {
         return Validator::make($data, static::$rules);
     }
+
+    /**
+     * Insert image to database table;
+     *
+     * @param  string $folderName
+     * @param  string $fileName
+     * @return array
+     */
+    public static function insertImage($folderName, $fileName)
+    {
+        return Images::insert(array(
+                    'id'         => $folderName,
+                    'user_id'    => Auth::check() ? Auth::user()->id : 0,
+                    'img_big'    => $fileName,
+                    'img_min'    => 'min_' . $fileName,
+                    'ip'         => Request::getClientIp(),
+                    'private'    => Input::get('private') ? 1 : 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+        ));
+    }
 }

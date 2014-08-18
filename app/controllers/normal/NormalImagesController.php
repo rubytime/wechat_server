@@ -34,7 +34,8 @@ class NormalImagesController extends BaseController {
 	public function getIndex()
 	{
         // Show the page
-        return View::make('normal/image/index');
+        $images = $this->image->orderBy('created_at', 'DESC')->get();
+        return View::make('normal/image/index', compact('images'));
 	}
 
 	/**
@@ -67,7 +68,7 @@ class NormalImagesController extends BaseController {
                 $fileName        = $file->getClientOriginalName();
                 $extension       = $file->getClientOriginalExtension();
                 $folderName      = str_random(12);
-                $destinationPath = 'uploads/' . $folderName;
+                $destinationPath = 'public/uploads/' . $folderName;
 
                 // Move file to generated folder
                 $file->move($destinationPath, $fileName);
@@ -75,13 +76,14 @@ class NormalImagesController extends BaseController {
                 // Crop image (possible by Intervention Image Class)
                 // And save as miniature
                 Image::make($destinationPath . '/' . $fileName)
-                		->resize(null, 120, function ($constraint) {$constraint->aspectRatio();})
+                		->resize(null, 160, function ($constraint) {$constraint->aspectRatio();})
                 		->save($destinationPath . '/min_' . $fileName);
 
-                $this->image->user_id = Auth::user()->id;
-                $this->image->img_big = $folderName . '/' . $fileName;
-                $this->image->img_min = $folderName . '/min_' . $fileName; 
-                $this->image->save();
+               	$imageModel = new ImageModel;
+                $imageModel->user_id = Auth::user()->id;
+                $imageModel->img_big = 'uploads/' . $folderName . '/' . $fileName;
+                $imageModel->img_min = 'uploads/' . $folderName . '/min_' . $fileName; 
+                $imageModel->save();
             } else {
                 return Redirect::to('normal/images')
                         ->with('status', 'alert-danger')

@@ -21,6 +21,9 @@
 		================================================== -->
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+        {{ HTML::style('assets/css/bootstrap-image-gallery.min.css') }}
         <!--{{ HTML::style('assets/css/custom.css') }}
         {{ HTML::script('assets/js/image.upload.js') }}-->
 
@@ -110,6 +113,8 @@
 		================================================== -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+        <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+		{{ HTML::script('assets/js/bootstrap-image-gallery.min.js') }}
 
         @yield('scripts')
 	</body>

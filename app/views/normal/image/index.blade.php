@@ -5,8 +5,27 @@
 Images :: @parent
 @stop
 
-@section('content')
+{{-- Scripts --}}
+@section('before_scripts')
+    <script>
+        $(document).ready(function () {
 
+            $('.swipeboxEx').each(function (i, el) {
+                $(el).justifiedGallery({margins: 10,
+                                        sizeRangeSuffixes: {'lt100':'', 
+                                                            'lt240':'', 
+                                                            'lt320':'', 
+                                                            'lt500':'', 
+                                                            'lt640':'', 
+                                                            'lt1024':''},
+                                        rel: 'gal' + i}).on('jg.complete', function () { $('.swipeboxEx a').swipebox(); //swipebox, wants to be called only once to work properly
+                });
+            });
+        });
+    </script>
+@stop
+
+@section('content')
     {{ Form::open(array('url' => 'normal/images/upload', 'method' => 'post', 'id' => 'upload-image', 'enctype' => 'multipart/form-data', 'files' => true)) }}
         {{ Form::file('file[]', array('multiple' => 'multiple', 'id' => 'multiple-files', 'accept' => 'image/*')) }}
 
@@ -38,47 +57,10 @@ Images :: @parent
         @endif
 
     </div>
-
-
-    <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
-	<div id="blueimp-gallery" class="blueimp-gallery">
-    	<!-- The container for the modal slides -->
-    	<div class="slides"></div>
-    	<!-- Controls for the borderless lightbox -->
-   		<h3 class="title"></h3>
-    	<a class="prev">‹</a>
-   		<a class="next">›</a>
-    	<a class="close">×</a>
-    	<a class="play-pause"></a>
-    	<ol class="indicator"></ol>
-    	<!-- The modal dialog, which will be used to wrap the lightbox content -->
-    	<div class="modal fade">
-        	<div class="modal-dialog">
-            	<div class="modal-content">
-                	<div class="modal-header">
-                    	<button type="button" class="close" aria-hidden="true">&times;</button>
-                    	<h4 class="modal-title"></h4>
-                	</div>
-                	<div class="modal-body next"></div>
-                	<div class="modal-footer">
-                    	<button type="button" class="btn btn-default pull-left prev">
-                        	<i class="glyphicon glyphicon-chevron-left"></i>
-                        	Previous
-                    	</button>
-                    	<button type="button" class="btn btn-primary next">
-                        	Next
-                        	<i class="glyphicon glyphicon-chevron-right"></i>
-                    	</button>
-                	</div>
-            	</div>
-        	</div>
-    	</div>
-	</div>
-
-	<div id="links">
+	<div id="margin0" style="background-color: white;" class="swipeboxEx">
 		@foreach($images as $image)
-    	<a href="{{asset($image->img_big)}}" title="Banana" data-gallery>
-        	<img src="{{asset($image->img_min)}}" alt="Banana">
+    	<a href="{{asset($image->img_big)}}" title="Banana">
+        	<img alt="Banana" src="{{asset($image->img_min)}}">
     	</a>
     	@endforeach
 	</div>
